@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ralph's Creative Compass - Social Thought Partner</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* Agency Brand Colors */
+            --primary: #EB008B; /* Ralph Pink AKA "Homer's donut" */
+            --secondary: #31BDBF; /* Ralph Blue AKA "Me want cookie" */
+            --tertiary: #F16524; /* Ralph Orange AKA "Carrot Cake Mistake" */
+            --quaternary: #44B658; /* Ralph Green AKA "Peas to Meet You" */
+            --quinary: #FBC000; /* Ralph Yellow AKA "Dippy Egg" */
+            --senary: #301609; /* Ralph Brown AKA "Fudge Smudge" */
+            
+            /* UI Colors */
+            --light: #f8f9fa;
+            --lighter: #f1f3f5;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --text-muted: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fb;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 240px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 20px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--gray-light);
+            padding-bottom: 10px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .card-title i {
+            color: var(--primary);
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--gray-light);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            background-color: var(--lighter);
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background-color: rgba(235, 0, 139, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+        
+        .upload-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .url-input {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .url-input input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid var(--gray-light);
+            border-radius: 4px 0 0 4px;
+            outline: none;
+        }
+        
+        .url-input button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        
+        .filter-button {
+            background-color: white;
+            border: 1px solid var(--gray-light);
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: var(--gray);
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-button:hover, .filter-button.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 10px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+        }
+        
+        .gallery-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .gallery-item-stats {
+            display: flex;
+            font-size: 12px;
+            gap: 10px;
+        }
+        
+        .gallery-item-stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .performance-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .performance-high {
+            background-color: var(--quaternary);
+        }
+        
+        .performance-medium {
+            background-color: var(--quinary);
+        }
+        
+        .performance-low {
+            background-color: var(--tertiary);
+        }
+        
+        .chat-container {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .chat-title {
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .chat-title i {
+            color: var(--primary);
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            margin-bottom: 15px;
+            background-color: var(--lighter);
+            border-radius: 8px;
+            height: 70vh;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            max-width: 85%;
+        }
+        
+        .message-user {
+            margin-left: auto;
+        }
+        
+        .message-bot {
+            margin-right: auto;
+        }
+        
+        .message-content {
+            padding: 10px 15px;
+            border-radius: 18px;
+            display: inline-block;
+        }
+        
+        .message-user .message-content {
+            background-color: var(--primary);
+            color: white;
+            border-radius: 18px 18px 4px 18px;
+        }
+        
+        .message-bot .message-content {
+            background-color: white;
+            border: 1px solid var(--gray-light);
+            border-radius: 18px 18px 18px 4px;
+        }
+        
+        .message-time {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 5px;
+            display: block;
+        }
+        
+        .chat-input {
+            display: flex;
+            margin-top: auto;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--gray-light);
+            border-radius: 4px 0 0 4px;
+            outline: none;
+        }
+        
+        .chat-input button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        .integration-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--gray-light);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-right: 8px;
+            color: var(--gray);
+        }
+        
+        .integration-badge i {
+            margin-right: 5px;
+        }
+        
+        .insights-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-right: 8px;
+            background-color: rgba(49, 189, 191, 0.1);
+            color: var(--secondary);
+        }
+        
+        .tabbed-section {
+            margin-top: 15px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--gray-light);
+            margin-bottom: 15px;
+        }
+        
+        .tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            color: var(--gray);
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+
+        .insight-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border-left: 3px solid var(--primary);
+        }
+        
+        .insight-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .insight-title i {
+            color: var(--primary);
+        }
+        
+        .insight-text {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .metric-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .metric-box {
+            flex: 1;
+            padding: 10px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .knowledge-stats {
+            background-color: rgba(235, 0, 139, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stats-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .slack-integration {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #f9f9f9;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .slack-icon {
+            font-size: 20px;
+            color: #4A154B;
+        }
+        
+        .slack-text {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .connect-button {
+            padding: 5px 10px;
+            background-color: #4A154B;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .ai-processing {
+            padding: 15px;
+            background-color: rgba(68, 182, 88, 0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .processing-title {
+            font-weight: 600;
+            color: var(--quaternary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .processing-steps {
+            margin-left: 25px;
+        }
+        
+        .processing-step {
+            margin-bottom: 8px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .step-number {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--quaternary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-compass"></i> Ralph's Creative Compass
+            </div>
+            <div class="user-info">
+                <span>Welcome, Social Team, Ralph NY</span>
+                <div class="user-avatar">R</div>
+            </div>
+        </header>
+
+        <div class="main-grid">
+            <div class="left-column">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-brain"></i> Train Your Creative Compass
+                            <div class="tooltip">
+                                <i class="fas fa-info-circle"></i>
+                                <span class="tooltiptext">Upload successful Ralph assets to train the AI on what performs well for your brand</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-sliders-h"></i> Settings
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="upload-area">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <div class="upload-text">Drag and drop your content here or click to browse</div>
+                        <button class="upload-button">
+                            <i class="fas fa-plus"></i> Upload Content
+                        </button>
+                        <div class="url-input">
+                            <input type="text" placeholder="Or paste a URL (Instagram, TikTok, Twitter, etc.)">
+                            <button><i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="ai-processing">
+                        <div class="processing-title">
+                            <i class="fas fa-robot"></i> AI Workflow Processing
+                        </div>
+                        <div class="processing-steps">
+                            <div class="processing-step">
+                                <div class="step-number">1</div>
+                                <div>Content extraction & normalization</div>
+                            </div>
+                            <div class="processing-step">
+                                <div class="step-number">2</div>
+                                <div>Visual content analysis (powered by N8N workflow)</div>
+                            </div>
+                            <div class="processing-step">
+                                <div class="step-number">3</div>
+                                <div>Performance metrics association</div>
+                            </div>
+                            <div class="processing-step">
+                                <div class="step-number">4</div>
+                                <div>Pattern recognition & knowledge base integration</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="knowledge-stats">
+                        <div class="stats-title">Knowledge Base Health</div>
+                        <div class="stat-item">
+                            <span>Total assets analyzed:</span>
+                            <span>438</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>High performing assets:</span>
+                            <span>176</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Content categories:</span>
+                            <span>12</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Distinct patterns identified:</span>
+                            <span>28</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Last training update:</span>
+                            <span>Today, 9:45 AM</span>
+                        </div>
+                    </div>
+
+                    <div class="filters">
+                        <button class="filter-button active">All Content</button>
+                        <button class="filter-button">Images</button>
+                        <button class="filter-button">Videos</button>
+                        <button class="filter-button">Instagram</button>
+                        <button class="filter-button">TikTok</button>
+                        <button class="filter-button">Twitter</button>
+                        <button class="filter-button">High Performing</button>
+                        <button class="filter-button">Recently Added</button>
+                    </div>
+
+                    <div class="gallery">
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/400/320" alt="Social media post">
+                            <div class="performance-indicator performance-high">A+</div>
+                            <div class="gallery-item-overlay">
+                                <div class="gallery-item-title">Product Launch Teaser</div>
+                                <div class="gallery-item-stats">
+                                    <div class="gallery-item-stat">
+                                        <i class="fas fa-heart"></i> 12.5K
+                                    </div>
+                                    <div class="gallery-item-stat">
+                                        <i class="fas fa-share"></i> 3.2K
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/400/320" alt="Social media post">
+                            <div class="performance-indicator performance-medium">B</div>
+                            <div class="gallery-item-overlay">
+                                <div class="gallery-item-title">Behind the Scenes</div>
+                                <div class="gallery-item-stats">
+                                    <div class="gallery-item-stat">
+                                        <i class="fas fa-heart"></i> 5.8K
+                                    </div>
+                                    <div class="gallery-item-stat">
+                                        <i class="fas fa-share"></i> 960
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/400/320" alt="Social media post">
+                            <div class="performance-indicator performance-high">A</div>
+                            <div class="gallery-item-overlay">
+                                <div class="gallery-item-title">Influencer Collab</div>
+                                <div class="gallery-item-stats">
+                                    <div class="gallery-item-stat">
+                                        <i class="fas fa-heart"></i> 9.7K
+                                    </div>
+                                    <div class="gallery-item-stat">
+                                        <i class="fas fa-share"></i> 2.1K
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/400/320" alt="Social media post">
+                            <div class="performance-indicator performance-low">C</div>
+                            <div class="gallery-item-overlay">
+                                <div class="gallery-item-title">Product Feature</div>
+                                <div class="gallery-item-stats">
+                                    <div class="gallery-item-stat">
+                                        <i class="fas fa-heart"></i> 3.2K
+                                    </div>
+                                    <div class="gallery-item-stat">
+                                        <i class="fas fa-share"></i> 425
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/400/320" alt="Social media post">
+                            <div class="performance-indicator performance-high">A</div>
+                            <div class="gallery-item-overlay">
+                                <div class="gallery-item-title">User Generated Content</div>
+                                <div class="gallery-item-stats">
+                                    <div class="gallery-item-stat">
+                                        <i class="fas fa-heart"></i> 8.9K
+                                    </div>
+                                    <div class="gallery-item-stat">
+                                        <i class="fas fa-share"></i> 1.8K
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/400/320" alt="Social media post">
+                            <div class="performance-indicator performance-medium">B+</div>
+                            <div class="gallery-item-overlay">
+                                <div class="gallery-item-title">Campaign Launch</div>
+                                <div class="gallery-item-stats">
+                                    <div class="gallery-item-stat">
+                                        <i class="fas fa-heart"></i> 7.4K
+                                    </div>
+                                    <div class="gallery-item-stat">
+                                        <i class="fas fa-share"></i> 1.2K
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-lightbulb"></i> Content Performance Insights
+                            <div class="tooltip">
+                                <i class="fas fa-info-circle"></i>
+                                <span class="tooltiptext">AI-generated insights based on your high-performing content</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-row">
+                        <div class="metric-box">
+                            <div class="metric-value">4.2s</div>
+                            <div class="metric-label">Optimal Video Intro Length</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">85%</div>
+                            <div class="metric-label">Human-Centered Content</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">3:1</div>
+                            <div class="metric-label">Show:Tell Ratio</div>
+                        </div>
+                    </div>
+
+                    <div class="tabbed-section">
+                        <div class="tabs">
+                            <div class="tab active">Content Patterns</div>
+                            <div class="tab">Visual Elements</div>
+                            <div class="tab">Timing Insights</div>
+                        </div>
+                        <div class="tab-content active">
+                            <div class="insight-card">
+                                <div class="insight-title">
+                                    <i class="fas fa-chart-line"></i> Story-First Approach
+                                </div>
+                                <div class="insight-text">
+                                    Your highest-performing content consistently leads with personal stories before introducing products, with 73% higher engagement than product-first posts.
+                                </div>
+                            </div>
+                            <div class="insight-card">
+                                <div class="insight-title">
+                                    <i class="fas fa-chart-line"></i> User Interaction
+                                </div>
+                                <div class="insight-text">
+                                    Content that asks a direct question in the first line receives 2.8x more comments than statements.
+                                </div>
+                            </div>
+                            <div class="insight-card">
+                                <div class="insight-title">
+                                    <i class="fas fa-chart-line"></i> Content Length
+                                </div>
+                                <div class="insight-text">
+                                    Your 60-90 second videos have 42% higher completion rate than longer content, with particular strength in tutorial formats.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-content">
+                            <!-- Visual Elements Tab Content -->
+                        </div>
+                        <div class="tab-content">
+                            <!-- Timing Insights Tab Content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="card chat-container">
+                    <div class="chat-header">
+                        <div class="chat-title">
+                            <i class="fas fa-comments"></i> Creative Compass Assistant
+                            <div class="tooltip">
+                                <i class="fas fa-info-circle"></i>
+                                <span class="tooltiptext">Ask questions about your content strategy or get specific recommendations based on your brand's data
